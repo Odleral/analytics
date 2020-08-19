@@ -57,5 +57,6 @@ class ODRView(APIView):
         expenses = request.data.get('expenses')
 
         serializer = ExpensesSerializer(data=expenses)
+        serializer = ExpensesSerializer(data=expenses)
 
         return print(serializer)
