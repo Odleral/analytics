@@ -51,3 +51,11 @@ class ODRView(APIView):
         odrs = ODR.object.all()
         serializer = ODRSerializer(odrs, many=True)
         return Response({"odrs": serializer.data})
+
+
+    def post(self, request):
+        expenses = request.data.get('expenses')
+
+        serializer = ExpensesSerializer(data=expenses)
+
+        return print(serializer)

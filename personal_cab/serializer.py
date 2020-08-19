@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Expenses
+from .models import *
 
 class ExpensesSerializer(serializers.Serializer):
     exp_title = serializers.CharField(max_length=100,)
@@ -74,3 +74,6 @@ class ODRSerializer(serializers.Serializer):
     com_exp = serializers.CharField(max_length=100,)
     prod_exp = serializers.CharField(max_length=100,)
     admin_exp = serializers.CharField(max_length=100,)
+
+    def create(self, validated_data):
+        return ODR.objects.create(**validated_data)
