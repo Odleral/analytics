@@ -1,8 +1,9 @@
 from django.shortcuts import render
-from django.views.generic import TemplateView
+from django.http import HttpResponse, JsonResponse
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.generics import get_object_or_404
+from django.views.decorators.csrf import csrf_exempt
 
 from .models import *
 from .serializer import *
@@ -42,6 +43,19 @@ class Exp_view(APIView):
         expenses = get_object_or_404(Expenses.objects.all(), pk=pk)
         expenses.delete()
         return Response({"Success": "Expenses '{}' has been deleted".format(pk)}, status=204)
+
+
+# Косяк, надо исправить! 
+@csrf_exempt
+def expense_detail(request,pk):
+    try:
+        expense = Expenses.objects.get(pk=pk)
+    except Expenses.DoesNotExist:
+        return HttpResponse(status=404)
+    
+    if request.method == 'GET':
+        serializer = ExpensesSerializer(expense)
+        return JsonResponse(serializer.data)
 
 
     
